@@ -1,4 +1,4 @@
-# Pfsense-Anycast-Check-Gateway
+# Pfsense-Anycast-Check-Gateway-Status
 - This is a 2nd "raw" release
 
 For Anycast we need to have a check that fires up/down the anycast IP: the principe
