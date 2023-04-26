@@ -16,9 +16,9 @@ Many improvement can be done, suggest yours!
 
 1. Install both files (with the filer package)
    - Instruction in the files
-2. To do manually edit
-/conf/config.xml
-and add the followin in the service section
+2. To do manually 
+   - Edit (vi) /conf/config.xml 
+   - To add the following, in the service section
 ```
 		<service>
 			<name>Anycast ctrld</name>
