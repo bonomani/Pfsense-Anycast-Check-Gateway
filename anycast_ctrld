@@ -26,17 +26,17 @@ fi
 rc_start() {
        
     rc_stop
-  	# Start 
+    # Start 
     (exec ${interpreter} ${script} & jobs -p > $pidfile)
     pidnum=`/bin/cat ${pidfile}`
-		#cat $pidnum >> /var/run/${name}.pid
-		if [ -n "${pidnum}" ]; then
-		    echo "${name} started (${pidnum})" >&2
-		    /usr/bin/logger -p daemon.info -t $name "${name} started"
-		else
-		    echo "${name} failed to start" >&2
-			  /usr/bin/logger -p daemon.info -t $name "${name} failed to start"
-		fi
+    #cat $pidnum >> /var/run/${name}.pid
+    if [ -n "${pidnum}" ]; then
+        echo "${name} started (${pidnum})" >&2
+	/usr/bin/logger -p daemon.info -t $name "${name} started"
+    else
+        echo "${name} failed to start" >&2
+       /usr/bin/logger -p daemon.info -t $name "${name} failed to start"
+    fi
 }
 
 rc_stop() {
@@ -48,14 +48,14 @@ rc_stop() {
 }
 
 case $1 in
-	start)
-		rc_start
-		;;
-	stop)
-		rc_stop
-		;;
-	restart)
-		rc_stop
-		rc_start
-		;;
+    start)
+        rc_start
+        ;;
+    stop)
+        rc_stop
+	;;
+    restart)
+        rc_stop
+        rc_start
+        ;;
 esac
