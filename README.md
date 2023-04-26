@@ -19,11 +19,12 @@ Many improvement can be done, suggest yours!
 2. To do manually edit
 /conf/config.xml
 and add the followin in the service section
+```
 		<service>
 			<name>Anycast ctrld</name>
 			<rcfile>anycast_ctrld</rcfile>
 			<executable>anycast_ctrld</executable>
 			<description><![CDATA[Anycast gatewaystatus ctrld]]></description>
 		</service>
-
+```
 
