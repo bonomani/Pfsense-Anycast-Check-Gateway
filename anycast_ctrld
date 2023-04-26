@@ -1,0 +1,61 @@
+#!/bin/sh
+# add via Filer package
+# File: /usr/local/etc/rc.d/anycast_ctrld
+# RC script
+# Permission: 755
+
+name="anycast_ctrld"
+folder="/usr/local/bin"
+interpreter="${folder}/${name}" 
+script="${folder}/${name}.sh"
+pidfile="/var/run/${name}.pid"
+
+# Copy (symlink do not work) the shell vi cp if needed
+shell=`which sh`
+if [ ! -f $interpreter ]; then
+    echo "File ${interpreter} not found! ...copying" >&2
+    /usr/bin/logger -p daemon.info -t $name "File ${interpreter} not found! ...copying"
+    cp $shell $interpreter
+    if [ ! -f $interpreter ]; then
+        echo "Still file ${interpreter} not found!" >&2
+        /usr/bin/logger -p daemon.info -t $name "Still file ${interpreter} not found! ..exiting"
+        exit 1
+    fi
+fi
+ 
+rc_start() {
+       
+    rc_stop
+  	# Start 
+    (exec ${interpreter} ${script} & jobs -p > $pidfile)
+    pidnum=`/bin/cat ${pidfile}`
+		#cat $pidnum >> /var/run/${name}.pid
+		if [ -n "${pidnum}" ]; then
+		    echo "${name} started (${pidnum})" >&2
+		    /usr/bin/logger -p daemon.info -t $name "${name} started"
+		else
+		    echo "${name} failed to start" >&2
+			  /usr/bin/logger -p daemon.info -t $name "${name} failed to start"
+		fi
+}
+
+rc_stop() {
+	
+    # Terminate process, if found
+    pidnum=`/bin/cat ${pidfile}`
+    kill -9 $pidnum >&2
+
+}
+
+case $1 in
+	start)
+		rc_start
+		;;
+	stop)
+		rc_stop
+		;;
+	restart)
+		rc_stop
+		rc_start
+		;;
+esac
