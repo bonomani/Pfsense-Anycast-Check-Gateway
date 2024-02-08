@@ -30,10 +30,10 @@ while true; do
     if [ "$current_gw_status" != "$last_gw_status" ]; then
         if [ "$current_gw_status" = "1" ]; then
             $vtysh_cmd -c "configure terminal" -c "int $interface" -c "ip ospf area 0"
-            message="${name} gatewaystatus up"
+            message="${name} gatewaystatus on $gateway_interface is $gateway_status"
         else
             $vtysh_cmd -c "configure terminal" -c "int $interface" -c "no ip ospf area 0"
-            message="${name} gatewaystatus down"
+            message="${name} gatewaystatus on $gateway_interface is not $gateway_status"
         fi
 
         echo "$message"
