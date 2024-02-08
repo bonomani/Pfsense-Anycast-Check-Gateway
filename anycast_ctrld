@@ -1,61 +1,70 @@
 #!/bin/sh
-# add via Filer package
+
+# AnyCast Controller Daemon Init Script
+# Add this file with the Filer package
 # File: /usr/local/etc/rc.d/anycast_ctrld
-# RC script
+# Description: AnyCast Controller Daemon Init Script
 # Permission: 755
+# Script/Command: 
+# Execute mode: Background
 
 name="anycast_ctrld"
-folder="/usr/local/bin"
-interpreter="${folder}/${name}" 
-script="${folder}/${name}.sh"
+interpreter="/usr/local/bin/${name}"
+script="${interpreter}.sh"
 pidfile="/var/run/${name}.pid"
+log_file="/var/log/${name}.log"
 
-# Copy (symlink do not work) the shell vi cp if needed
-shell=`which sh`
-if [ ! -f $interpreter ]; then
-    echo "File ${interpreter} not found! ...copying" >&2
-    /usr/bin/logger -p daemon.info -t $name "File ${interpreter} not found! ...copying"
-    cp $shell $interpreter
-    if [ ! -f $interpreter ]; then
-        echo "Still file ${interpreter} not found!" >&2
-        /usr/bin/logger -p daemon.info -t $name "Still file ${interpreter} not found! ..exiting"
-        exit 1
-    fi
-fi
- 
-rc_start() {
-       
-    rc_stop
-    # Start 
-    (exec ${interpreter} ${script} & jobs -p > $pidfile)
-    pidnum=`/bin/cat ${pidfile}`
-    #cat $pidnum >> /var/run/${name}.pid
-    if [ -n "${pidnum}" ]; then
-        echo "${name} started (${pidnum})" >&2
-	/usr/bin/logger -p daemon.info -t $name "${name} started"
+# Function to log messages
+log_message() {
+    /usr/bin/logger -p daemon.info -t "$name" "$1"
+}
+
+# Function to check and copy the shell
+check_shell() {
+    if [ ! -f "$interpreter" ]; then
+        cp -p "$(which sh)" "$interpreter" || { log_message "Failed to copy shell. Exiting..."; exit 1; }
+        log_message "Shell copied successfully."
     else
-        echo "${name} failed to start" >&2
-       /usr/bin/logger -p daemon.info -t $name "${name} failed to start"
+        log_message "Shell already exists."
     fi
 }
 
-rc_stop() {
-	
-    # Terminate process, if found
-    pidnum=`/bin/cat ${pidfile}`
-    kill -9 $pidnum >&2
-
+# Function to start the daemon
+rc_start() {
+    rc_stop
+    (exec "$interpreter" "$script" & echo $! > "$pidfile")
+    log_message "Daemon started."
 }
 
-case $1 in
+# Function to stop the daemon
+rc_stop() {
+    if [ -f "$pidfile" ]; then
+        kill -9 $(cat "$pidfile") >&2 || true
+        rm -f "$pidfile"
+        log_message "Daemon stopped."
+    else
+        log_message "Daemon is not running."
+    fi
+}
+
+# Check the command line argument and perform the corresponding action
+case "$1" in
     start)
+        check_shell
         rc_start
         ;;
     stop)
         rc_stop
-	;;
+        ;;
     restart)
+        check_shell
         rc_stop
         rc_start
         ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}" >&2
+        exit 1
+        ;;
 esac
+
+exit 0
