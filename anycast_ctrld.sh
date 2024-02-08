@@ -32,17 +32,14 @@ while true; do
     if [ "$current_gw_status" != "$last_gw_status" ]; then
         if [ "$current_gw_status" = "1" ]; then
             $vtysh_cmd -c "configure terminal" -c "int $interface" -c "$enable_cmd"
-            message="${name} gatewaystatus on $gateway_interface is $gateway_status, $enable_cmd was applied on $interface"
+            message="${name} $gateway_interface gatewaystatus is $gateway_status, '$enable_cmd' was applied on $interface"
         else
             $vtysh_cmd -c "configure terminal" -c "int $interface" -c "$disable_cmd"
-            message="${name} gatewaystatus on $gateway_interface is not $gateway_status, $disable_cmd was applied on $interface"
+            message="${name} $gateway_interface gatewaystatus is not $gateway_status, '$disable_cmd' was applied on $interface"
         fi
-
-        echo "$message"
         $logger_cmd "$message"
         sleep "$sleep_time"
     fi
-
     last_gw_status="$current_gw_status"
     sleep "$check_interval"
 done
