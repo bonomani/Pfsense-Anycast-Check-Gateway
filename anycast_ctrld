@@ -9,6 +9,7 @@
 # Execute mode: Background
 
 name="anycast_ctrld"
+logname=$name
 interpreter="/usr/local/bin/${name}"
 script="${interpreter}.sh"
 pidfile="/var/run/${name}.pid"
@@ -16,16 +17,19 @@ log_file="/var/log/${name}.log"
 
 # Function to log messages
 log_message() {
-    /usr/bin/logger -p daemon.info -t "$name" "$1"
+    /usr/bin/logger -p daemon.info -t "$logname" "$1"
 }
 
 # Function to check and copy the shell
 check_shell() {
+    local shell_path="$(command -v sh)"
+    
     if [ ! -f "$interpreter" ]; then
-        cp -p "$(which sh)" "$interpreter" || { log_message "Failed to copy shell. Exiting..."; exit 1; }
-        log_message "Shell copied successfully."
-    else
-        log_message "Shell already exists."
+        if ! cp -p "$shell_path" "$interpreter"; then
+            log_message "Failed to copy $shell_path to $interpreter. Exiting..."
+            exit 1
+        fi
+        log_message "$shell_path copied successfully to $interpreter."
     fi
 }
 
