@@ -15,7 +15,7 @@ You should have
 Many improvement can be done, suggest yours!
 
 1. Install both files (with the filer package)
-   - Instruction in the files
+   - See instructions in the files and adapt your config
 2. To do manually 
    - Edit (vi) /conf/config.xml 
    - To add the following, in the service section
@@ -27,4 +27,7 @@ Many improvement can be done, suggest yours!
 			<description><![CDATA[Anycast gatewaystatus ctrld]]></description>
 		</service>
 ```
+3. Reboot
+4. Start the service in the  service section
+5. Look at the log and at th routing to see the changes
 
