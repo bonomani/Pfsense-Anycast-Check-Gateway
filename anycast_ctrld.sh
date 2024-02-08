@@ -9,7 +9,8 @@
 # Execute mode: Background
 
 name="$0"
-logger_cmd="/usr/bin/logger -p daemon.info -t $name"
+logname="anycast_ctrld"
+logger_cmd="/usr/bin/logger -p daemon.info -t $logname"
 php_cmd="/usr/local/bin/php"
 vtysh_cmd="/usr/local/bin/vtysh"
 pfSsh_script="/usr/local/sbin/pfSsh.php"
