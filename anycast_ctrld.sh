@@ -18,6 +18,8 @@ gateway_status_php="$php_cmd $pfSsh_script playback gatewaystatus"
 gateway_interface="WAN"
 gateway_status="online"
 interface="lo0"
+enable_cmd="ip ospf area 0"
+disable_cmd="no $enable_cmd"
 sleep_time="30"
 check_interval="10"
 
@@ -29,10 +31,10 @@ while true; do
 
     if [ "$current_gw_status" != "$last_gw_status" ]; then
         if [ "$current_gw_status" = "1" ]; then
-            $vtysh_cmd -c "configure terminal" -c "int $interface" -c "ip ospf area 0"
+            $vtysh_cmd -c "configure terminal" -c "int $interface" -c "$enable_cmd"
             message="${name} gatewaystatus on $gateway_interface is $gateway_status"
         else
-            $vtysh_cmd -c "configure terminal" -c "int $interface" -c "no ip ospf area 0"
+            $vtysh_cmd -c "configure terminal" -c "int $interface" -c "$disable_cmd"
             message="${name} gatewaystatus on $gateway_interface is not $gateway_status"
         fi
 
