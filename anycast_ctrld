@@ -64,7 +64,7 @@ rc_stop() {
             pid=$(cat "$pidfile")
             log_message "Stopping running daemon"
             kill -TERM "$pid" >/dev/null 2>&1
-            sleep 1
+            sleep 2
             if [ -n "$(ps -p "$pid" -o pid=)" ]; then
                 log_message "Daemon with PID $pid is still running after graceful stop attempt, forcing stop."
                 kill -9 "$pid" >/dev/null 2>&1
