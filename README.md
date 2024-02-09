@@ -1,12 +1,15 @@
 # Pfsense-Anycast-Check-Gateway-Status
-- This is a 2nd "raw" release
+- This is a 3nd "raw" release
+
+Last update 9.02.2024
+- Improve start and stop, add all logic, but nothing really new: just very clean (to be be a good base for improvement)
 
 For Anycast we need to have a check that fires up/down the anycast IP: the principe
 - The script monitor a gatway: you need to monitor an IP in the config
 - The script use OSPF for the anycast and manipulate the configuration of FRR routing via vtysh
     - Enable/Disable the loopback to be in the ospf area 
 - The script check that it is not already running
-- The script run forever every 10 sec 
+- The script run forever 
 
 You should have
 - Add a loopback with the anycast address (I also have a second ip to monitor the anycast) 
