@@ -31,6 +31,6 @@ Many improvement can be done, suggest yours!
 		</service>
 ```
 3. Reboot
-4. Start the service in the  service section
+4. Start the service in the service section, you can install the watchdog service to make it start automatically (but dont not forget to remove it if you want to stop it)
 5. Look at the log and at th routing to see the changes
 
