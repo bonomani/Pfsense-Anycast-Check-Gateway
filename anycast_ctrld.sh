@@ -72,6 +72,11 @@ while ! $exit_flag; do
             # Log message
             log_message "$message"
         else
+            if [ "$current_gw_status" = "1" ]; then
+                $vtysh_cmd -c "configure terminal" -c "int $interface" -c "$enable_cmd"
+            else
+                $vtysh_cmd -c "configure terminal" -c "int $interface" -c "$disable_cmd"
+            fi
             check_interval="10"
         fi
     fi
