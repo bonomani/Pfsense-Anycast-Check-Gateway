@@ -27,7 +27,7 @@ log_message() {
     [ "$debug_mode" -eq 1 ] && echo "$1"  # Output to console if in debug mode
 }
 
-# Function to ensure the shell script exists
+# Function to ensure an executable with the name of the deamon exist (also in /conf/config.xml) as the deamon is a script executed by the shell  
 check_shell() {
     if [ ! -f "$daemon_path" ]; then
         if ! cp -p "$shell_path" "$daemon_path"; then
