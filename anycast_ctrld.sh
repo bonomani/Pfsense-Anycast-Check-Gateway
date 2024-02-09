@@ -72,7 +72,7 @@ while ! $exit_flag; do
             # Log message
             log_message "$message"
         else
-	    @ As frr can be restarted we should periodically reconfig frr or find another way 
+	    # As frr can be restarted we should periodically reconfig frr or find another way 
             if [ "$current_gw_status" = "1" ]; then
                 $vtysh_cmd -c "configure terminal" -c "int $interface" -c "$enable_cmd"
             else
