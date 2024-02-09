@@ -37,7 +37,7 @@ enable_cmd="ip ospf area 0"
 disable_cmd="no $enable_cmd"
 sleep_time="30"
 check_interval="10"
-last_gw_status="0"
+last_gw_status="1"
 
 # Log script start
 log_message "$0 started"
