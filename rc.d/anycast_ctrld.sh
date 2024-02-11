@@ -2,7 +2,7 @@
 
 ### AnyCast Controller Daemon Init Script ###
 ### Add this file with the Filer package ###
-### File: /usr/local/etc/rc.d/anycast_ctrld ###
+### File: /usr/local/etc/rc.d/anycast_ctrld.sh ###
 ### Description: AnyCast Controller Daemon Init Script ###
 ### Permission: 755 ###
 ### Script/Command: ###
