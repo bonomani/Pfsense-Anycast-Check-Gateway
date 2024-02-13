@@ -33,6 +33,6 @@ Many improvement can be done, suggest yours!
 3. Reboot (so it take the conf change!
 4. Start the service in the service section (manually to show if it works)
 5. Look at the log and at the FRR routing to see the changes
-6. Statrt automatically at boor
+6. Start automatically at boot time
    - With sshcmd package (add "anycast_ctrld start"), package need to be installed (RECOMMENDED)
    - Or you can use use the watchdog service (need to be installed) to make it restart automatically (if it stop, but dont not forget to remove it if you want to really stop it) (NOT RECOMMENDED)
